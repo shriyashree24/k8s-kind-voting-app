@@ -20,3 +20,23 @@ spec:
         ports:
         - containerPort: 80
           name: vote
+        env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic-license-key
+              key: license_key
+        - name: NEW_RELIC_APP_NAME
+          value: "VoteApp"
+        - name: NEW_RELIC_LOG
+          value: "stdout"
+        - name: PYTHONPATH
+          value: "/newrelic"
+        - name: NEW_RELIC_CONFIG_FILE
+          value: "/newrelic/newrelic.ini"
+        volumeMounts:
+        - name: newrelic
+          mountPath: /newrelic
+      volumes:
+      - name: newrelic
+        emptyDir: {}
